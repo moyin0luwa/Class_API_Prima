@@ -21,7 +21,7 @@ model Student {
 
 model Class {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  name   String
+  subject   String
   studentIDs String[]   @db.ObjectId
   student Student[]  @relation(fields: [studentIDs], references: [id])
   teacher Teacher @relation(fields: [teacherId], references: [id])
