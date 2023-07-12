@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["mongodb"]
 }
 
 datasource db {
@@ -16,13 +15,13 @@ model Student {
   name   String
   age    Int
   gender String
-  roomIDs String[] @unique @db.ObjectId
-  room_enrolled Room  @relation(fields: [roomIDs], references: [id])
+  subjectdesired String
+  room_enrolled Room  @relation(fields: [subjectdesired], references: [subject])
 }
 
 model Room {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
-  subject   String
+  subject   String @unique
   studentIDs String[]   @db.ObjectId
   student Student[] 
   teacher Teacher @relation(fields: [teacherId], references: [id])
