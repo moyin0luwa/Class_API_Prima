@@ -27,40 +27,37 @@ const createClass = async (req, res) => {
 }
 
 const enrollStudent = async (req, res) => {
-    const {subject, studentname, studentage, studentgender, teachername, teacherage, teachergender } = await req.body
-    const student = await prisma.student.create({
+    const {subject, studentname, studentage, studentgender } = await req.body
+    const lectureroom = await prisma.room.update({
+        where: {
+            subject: subject,
+        },
         data: {
-            name: studentname,
-            age: studentage,
-            gender: studentgender, 
-            room_enrolled: {
-                connectOrCreate: {
-                    where: {
-                        subject: subject,
-                    }, 
-                    create: {
-                        subject: subject,
-                        teacher: {
-                            create: {
-                               name: teachername,
-                               age: teacherage,
-                               gender: teachergender   
-                            }
-                        }
-                    }
+            student: {
+                create: {
+                    name: studentname,
+                    age: studentage,
+                    gender: studentgender
                 }
             }
         }
     })
-    console.log(student)
-        return res.status(200).json({
-            success: true,
-            message: "Student enrolled successfully",
-            student: student
-        })
+    console.log(lectureroom)
+     return res.status(200).json({
+        success: true,
+        message: "Student enrolled successfully",
+        lectureroom
+    })
 }
 
-
+const user = await prisma.user.update({
+    where: { email: 'alice@prisma.io' },
+    data: {
+      posts: {
+       create: { title: 'Hello World' },
+      },
+    },
+  })
 module.exports = {
     createClass,
     enrollStudent
